@@ -1,0 +1,28 @@
+{
+  "name": "job-inbox-agent",
+  "version": "1.0.0",
+  "description": "Automated job application inbox management agent",
+  "main": "job-inbox-agent.js",
+  "type": "module",
+  "scripts": {
+    "start": "node job-inbox-agent.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "email",
+    "gmail",
+    "agent",
+    "automation",
+    "job-search"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.27.0",
+    "googleapis": "^140.0.1",
+    "nodemailer": "^6.9.7"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
