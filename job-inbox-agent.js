@@ -10,11 +10,11 @@
  * - Sends daily summary
  */
 
-const { gmail_v1, google } = require("googleapis");
-const { Anthropic } = require("@anthropic-ai/sdk");
-const nodemailer = require("nodemailer");
-const fs = require("fs");
-const path = require("path");
+import { gmail_v1, google } from "googleapis";
+import { Anthropic } from "@anthropic-ai/sdk";
+import nodemailer from "nodemailer";
+import fs from "fs";
+import path from "path";
 
 // Configuration
 const CONFIG = {
