@@ -1,6 +1,10 @@
 #!/usr/bin/env node
 import dotenv from 'dotenv';
 dotenv.config();
+console.log('Loaded env keys:', Object.keys(process.env).filter(k => k.includes('GMAIL') || k.includes('ANTHROPIC')));
+console.log('Has refresh token?', !!process.env.GMAIL_REFRESH_TOKEN);
+console.log('Has access token?', !!process.env.GMAIL_ACCESS_TOKEN);
+console.log('Has client ID?', !!process.env.GMAIL_CLIENT_ID);
 
 /**
  * Job Application Inbox Agent
@@ -49,22 +53,24 @@ const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
-const gmail = google.gmail({
-  version: "v1",
-  auth: new google.auth.OAuth2(
-    process.env.GMAIL_CLIENT_ID,
-    process.env.GMAIL_CLIENT_SECRET,
-    "http://localhost:3000/oauth2callback"
-  ),
+// Create OAuth2 client first
+const oauth2Client = new google.auth.OAuth2(
+  process.env.GMAIL_CLIENT_ID,
+  process.env.GMAIL_CLIENT_SECRET,
+  "http://localhost:3000/oauth2callback"
+);
+
+// Set the tokens
+oauth2Client.setCredentials({
+  access_token: process.env.GMAIL_ACCESS_TOKEN,
+  refresh_token: process.env.GMAIL_REFRESH_TOKEN,
 });
 
-// Set OAuth2 tokens
-if (process.env.GMAIL_ACCESS_TOKEN) {
-  gmail.context.auth.setCredentials({
-    access_token: process.env.GMAIL_ACCESS_TOKEN,
-    refresh_token: process.env.GMAIL_REFRESH_TOKEN,
-  });
-}
+// Now create the Gmail client with the authenticated client
+const gmail = google.gmail({
+  version: "v1",
+  auth: oauth2Client,
+});
 
 /**
  * Main agent function
