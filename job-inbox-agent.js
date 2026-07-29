@@ -72,6 +72,12 @@ const gmail = google.gmail({
   auth: oauth2Client,
 });
 
+// Now create the Gmail client with the authenticated client
+const gmail = google.gmail({
+  version: "v1",
+  auth: oauth2Client,
+});
+
 /**
  * Main agent function
  */
